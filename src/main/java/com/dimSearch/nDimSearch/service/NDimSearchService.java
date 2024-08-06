@@ -21,6 +21,7 @@ public class NDimSearchService {
     }
 
     public boolean checkInput(ArrayList<Collection<?>> input){
+        //TODO: ensure this checks if the first element of the collection is a collection
         return input.getFirst() instanceof Collection<?>;
     }
 
