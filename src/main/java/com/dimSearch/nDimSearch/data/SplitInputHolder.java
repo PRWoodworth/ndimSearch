@@ -1,30 +1,18 @@
 package com.dimSearch.nDimSearch.data;
 
-import java.util.ArrayList;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+
 import java.util.Collection;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class SplitInputHolder {
-    private Collection<?> upperHalf;
-    private Collection<?> lowerHalf;
-
-    public SplitInputHolder(Collection<?> upperHalf, Collection<?> lowerHalf) {
-        this.upperHalf = upperHalf;
-        this.lowerHalf = lowerHalf;
-    }
-
-    public Collection<?> getUpperHalf() {
-        return upperHalf;
-    }
-
-    public void setUpperHalf(Collection<?> upperHalf) {
-        this.upperHalf = upperHalf;
-    }
-
-    public Collection<?> getLowerHalf() {
-        return lowerHalf;
-    }
-
-    public void setLowerHalf(Collection<?> lowerHalf) {
-        this.lowerHalf = lowerHalf;
-    }
+    private @NonNull Collection<?> upperHalf;
+    private @NonNull Collection<?> lowerHalf;
 }
+
+
