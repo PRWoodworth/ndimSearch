@@ -26,11 +26,15 @@ public class NDimSearchService {
     }
 
     public void search(String searchTarget, ArrayList<Collection<?>> input){
-        //TODO: if input is list/array/etc., split
         if(checkInput(input)) {
             SplitInputHolder splitHolder = splitInput(input);
+            //TODO: datatype errors on below 2 lines. >:(
+//            search(searchTarget, splitHolder.getLowerHalf());
+//            search(searchTarget, splitHolder.getUpperHalf());
+        } else {
+            //TODO: recursive until atomic element found
         }
-        //TODO: recursive until atomic element found
+
     }
       
 }
