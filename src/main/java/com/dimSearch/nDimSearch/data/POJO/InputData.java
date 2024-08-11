@@ -12,5 +12,5 @@ import java.util.Collection;
 @AllArgsConstructor
 public class InputData {
     private String searchTarget;
-    private ArrayList<Collection<?>> input;
+    private ArrayList<ArrayList<?>> input;
 }
