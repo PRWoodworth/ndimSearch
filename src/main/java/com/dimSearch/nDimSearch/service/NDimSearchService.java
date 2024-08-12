@@ -1,36 +1,29 @@
 package com.dimSearch.nDimSearch.service;
 
+import com.dimSearch.nDimSearch.data.DataHolder;
 import com.dimSearch.nDimSearch.data.SplitInputHolder;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class NDimSearchService {
     private static final Logger log = LogManager.getLogger(NDimSearchService.class.getName());
 
-    public SplitInputHolder splitInput(ArrayList<ArrayList<?>> input){
-        ArrayList<ArrayList<?>> lowerHalf = (ArrayList<ArrayList<?>>) input.subList(0, input.size()/2);
-        ArrayList<ArrayList<?>> upperHalf = (ArrayList<ArrayList<?>>) input.subList((input.size()/2), input.size());
-        return new SplitInputHolder(upperHalf, lowerHalf);
+    public SplitInputHolder split(List<DataHolder> input){
+        SplitInputHolder splitHolder = new SplitInputHolder(input.subList(0, input.size()/2), input.subList((input.size()/2), input.size()));
+        return splitHolder;
     }
 
-    public boolean checkInput(ArrayList<ArrayList<?>> input){
-        //TODO: ensure this checks if the first element of the collection is a collection
-        return input.getFirst() instanceof ArrayList;
-    }
+    public void search(String searchTarget, List<DataHolder> input){
+        log.info("Input: {}", input);
 
-    public void search(String searchTarget, ArrayList<ArrayList<?>> input){
-        if(checkInput(input)) {
-            SplitInputHolder splitHolder = splitInput(input);
-            //TODO: datatype errors on below 2 lines. >:(
-//            search(searchTarget, splitHolder.getLowerHalf());
-//            search(searchTarget, splitHolder.getUpperHalf());
-        } else {
-            //TODO: recursive until atomic element found
-        }
+//        TODO: implement basic half/half search first on unsorted 1d array
+//        TODO: expand to 2d search
+//        TODO: generalize to n-d
 
     }
       
