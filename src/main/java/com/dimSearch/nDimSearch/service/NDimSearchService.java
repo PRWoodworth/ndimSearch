@@ -13,17 +13,25 @@ import java.util.List;
 public class NDimSearchService {
     private static final Logger log = LogManager.getLogger(NDimSearchService.class.getName());
 
+//        TODO: implement basic recursive half/half search first on unsorted 1d array
+//        TODO: expand to 2d search
+//        TODO: create thread for each recursive (one for upper half, one for lower half)?
+//        TODO: generalize to n-d
+
+//    TODO: recursively flatten each level until single flat array?
+
     public SplitInputHolder split(List<DataHolder> input){
-        SplitInputHolder splitHolder = new SplitInputHolder(input.subList(0, input.size()/2), input.subList((input.size()/2), input.size()));
-        return splitHolder;
+        return new SplitInputHolder(input.subList(0, input.size()/2), input.subList((input.size()/2), input.size()));
     }
 
+    //TODO: return list of all locations where the target was found?
     public void search(String searchTarget, List<DataHolder> input){
         log.info("Input: {}", input);
-
-//        TODO: implement basic half/half search first on unsorted 1d array
-//        TODO: expand to 2d search
-//        TODO: generalize to n-d
+        SplitInputHolder splitInput = split(input);
+        log.info("Input: {}", splitInput);
+//        TODO: check for atomicity
+//        TODO: if atomic, check for target match
+//        TODO: if not, recursive search
 
     }
       
