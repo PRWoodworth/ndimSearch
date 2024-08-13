@@ -26,9 +26,9 @@ public class NDimSearchService {
 
     //TODO: return list of all locations where the target was found?
     public void search(String searchTarget, List<DataHolder> input){
-        log.info("Input: {}", input);
+        log.info("Input: {}", input.toString());
         SplitInputHolder splitInput = split(input);
-        log.info("Input: {}", splitInput);
+        log.info("Input: {}", splitInput.toString());
 //        TODO: check for atomicity
 //        TODO: if atomic, check for target match
 //        TODO: if not, recursive search
