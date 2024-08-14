@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
 public class NDimSearchService {
     private static final Logger log = LogManager.getLogger(NDimSearchService.class.getName());
+    private List<Integer> locationArray = new ArrayList<Integer>();
 
 //        TODO: implement basic recursive half/half search first on unsorted 1d array
 //        TODO: expand to 2d search
@@ -25,14 +27,19 @@ public class NDimSearchService {
     }
 
     //TODO: return list of all locations where the target was found?
-    public void search(String searchTarget, List<DataHolder> input){
+    public void search(String searchTarget, List<DataHolder> input) {
         log.info("Input: {}", input.toString());
-        SplitInputHolder splitInput = split(input);
-        log.info("Input: {}", splitInput.toString());
-//        TODO: check for atomicity
-//        TODO: if atomic, check for target match
-//        TODO: if not, recursive search
-
+        if (input.size() > 1) {
+            SplitInputHolder splitInput = split(input);
+            log.info("Input: {}", splitInput.toString());
+            search(searchTarget, splitInput.getUpperHalf());
+            search(searchTarget, splitInput.getLowerHalf());
+        } else {
+            if (input.get(0).getName().equalsIgnoreCase("testName")) {
+//                TODO: get index in original input
+                int index = 0;
+                locationArray.add(index);
+            }
+        }
     }
-      
 }
