@@ -16,7 +16,7 @@ class SearchController {
 
     @RequestMapping(value = "/search", method= RequestMethod.GET)
     public void searchEndpoint(@RequestBody InputData requestBody){
-        searchService.search(requestBody.getSearchTarget(), requestBody.getInput());
+        searchService.search(requestBody.getSearchTarget(), requestBody.getInput(), 0, requestBody.getInput().size());
     }
 
     

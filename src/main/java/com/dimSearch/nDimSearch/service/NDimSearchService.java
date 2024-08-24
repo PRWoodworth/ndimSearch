@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class NDimSearchService {
     private static final Logger log = LogManager.getLogger(NDimSearchService.class.getName());
-    private List<Integer> locationArray = new ArrayList<Integer>();
+    private List<Integer> locationArray = new ArrayList<>();
 
 //        TODO: implement basic recursive half/half search first on unsorted 1d array
 //        TODO: expand to 2d search
@@ -27,18 +27,21 @@ public class NDimSearchService {
     }
 
     //TODO: return list of all locations where the target was found?
-    public void search(String searchTarget, List<DataHolder> input) {
+    public void search(String searchTarget, List<DataHolder> input, int lowerOriginalBound, int upperOriginalBound) {
         log.info("Input: {}", input.toString());
+        log.info("Lower original bound: {}", lowerOriginalBound);
+        log.info("Upper original bound: {}", upperOriginalBound);
+
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
             log.info("Input: {}", splitInput.toString());
-            search(searchTarget, splitInput.getUpperHalf());
-            search(searchTarget, splitInput.getLowerHalf());
+            search(searchTarget, splitInput.getUpperHalf(), input.size()/2, input.size());
+//            TODO: calculate lower bound correctly in below
+            search(searchTarget, splitInput.getLowerHalf(), lowerOriginalBound, input.size()/2);
         } else {
-            if (input.get(0).getName().equalsIgnoreCase("testName")) {
-//                TODO: get index in original input
-                int index = 0;
-                locationArray.add(index);
+            if (input.get(0).getName().equalsIgnoreCase(searchTarget)) {
+//                TODO: get index in original input. use lower bound.
+                locationArray.add(lowerOriginalBound);
             }
         }
     }
