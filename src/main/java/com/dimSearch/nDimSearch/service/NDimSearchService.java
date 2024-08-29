@@ -2,6 +2,7 @@ package com.dimSearch.nDimSearch.service;
 
 import com.dimSearch.nDimSearch.data.DataHolder;
 import com.dimSearch.nDimSearch.data.SplitInputHolder;
+import com.dimSearch.nDimSearch.data.SplitOffsetHolder;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +14,6 @@ import java.util.List;
 @Service
 public class NDimSearchService {
     private static final Logger log = LogManager.getLogger(NDimSearchService.class.getName());
-    private List<Integer> locationArray = new ArrayList<>();
 
 //        TODO: implement basic recursive half/half search first on unsorted 1d array
 //        TODO: expand to 2d search
@@ -27,22 +27,32 @@ public class NDimSearchService {
     }
 
     //TODO: return list of all locations where the target was found?
-    public void search(String searchTarget, List<DataHolder> input, int lowerOriginalBound, int upperOriginalBound) {
+    public int searchOperation(String searchTarget, List<DataHolder> input){
+        return splitOffsetBacktrack(search(searchTarget, input, 0, 0), input.size());
+    }
+
+    public SplitOffsetHolder search(String searchTarget, List<DataHolder> input, int upperSplitOffset, int lowerSplitOffset) {
         log.info("Input: {}", input.toString());
-        log.info("Lower original bound: {}", lowerOriginalBound);
-        log.info("Upper original bound: {}", upperOriginalBound);
+        log.info("Upper split offset: {}", upperSplitOffset);
+        log.info("Lower split offset: {}", lowerSplitOffset);
 
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
-            log.info("Input: {}", splitInput.toString());
-            search(searchTarget, splitInput.getUpperHalf(), input.size()/2, input.size());
-//            TODO: calculate lower bound correctly in below
-            search(searchTarget, splitInput.getLowerHalf(), lowerOriginalBound, input.size()/2);
+            log.info("Split Input: {}", splitInput.toString());
+//            TODO: calculate offset from original split based on number of upper/lower splits
+
+            search(searchTarget, splitInput.getUpperHalf(), upperSplitOffset + 1, lowerSplitOffset);
+            search(searchTarget, splitInput.getLowerHalf(),  upperSplitOffset, lowerSplitOffset + 1);
         } else {
             if (input.get(0).getName().equalsIgnoreCase(searchTarget)) {
-//                TODO: get index in original input. use lower bound.
-                locationArray.add(lowerOriginalBound);
+                return new SplitOffsetHolder(upperSplitOffset, lowerSplitOffset);
             }
         }
+        return null;
+    }
+
+    public int splitOffsetBacktrack(SplitOffsetHolder offsetHolder, int originalSize){
+        return 0;
     }
 }
+
