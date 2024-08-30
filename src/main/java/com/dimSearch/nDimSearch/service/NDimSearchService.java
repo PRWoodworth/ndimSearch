@@ -27,7 +27,7 @@ public class NDimSearchService {
         return new SplitInputHolder(input.subList(0, input.size()/2), input.subList((input.size()/2), input.size()));
     }
 
-    public Deque<Character> offsetQueue updateAndReturn(Deque<Character> offsetQueue, char charToAdd){
+    public Deque<Character> updateAndReturn(Deque<Character> offsetQueue, char charToAdd){
         offsetQueue.addFirst(charToAdd);
         return offsetQueue;
     }
@@ -48,6 +48,7 @@ public class NDimSearchService {
 
     public OffsetData search(String searchTarget, List<DataHolder> input, Deque<Character> offsetQueue, int upperOffset, int lowerOffset) {
         log.info("Input: {}", input.toString());
+        log.info("Offset Queue: {}", offsetQueue.toString());
         log.info("Upper split offset: {}", upperOffset);
         log.info("Lower split offset: {}", lowerOffset);
 
