@@ -3,11 +3,12 @@ package com.dimSearch.nDimSearch.service;
 import com.dimSearch.nDimSearch.data.DataHolder;
 import com.dimSearch.nDimSearch.data.SplitInputHolder;
 import com.dimSearch.nDimSearch.data.SplitOffsetHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,8 +28,16 @@ public class NDimSearchService {
     }
 
     //TODO: return list of all locations where the target was found?
-    public int searchOperation(String searchTarget, List<DataHolder> input){
-        return splitOffsetBacktrack(search(searchTarget, input, 0, 0), input.size());
+    public ResponseEntity<String> searchOperation(String searchTarget, List<DataHolder> input){
+        ResponseEntity<String> searchResponseEntity = new ResponseEntity<>("Target not found.", HttpStatus.OK);
+        try{
+            SplitOffsetHolder offsetHolder = search(searchTarget, input, 0, 0);
+            int originalIndex = splitOffsetBacktrack(offsetHolder, input.size());
+            searchResponseEntity = new ResponseEntity<>("Target found at index ".concat(String.valueOf(originalIndex)), HttpStatus.OK);
+        } catch (Exception e){
+            searchResponseEntity = new ResponseEntity<>("Error occurred during search.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return searchResponseEntity;
     }
 
     public SplitOffsetHolder search(String searchTarget, List<DataHolder> input, int upperSplitOffset, int lowerSplitOffset) {
