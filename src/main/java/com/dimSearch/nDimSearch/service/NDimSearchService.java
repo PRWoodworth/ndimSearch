@@ -29,7 +29,7 @@ public class NDimSearchService {
 
     //TODO: return list of all locations where the target was found?
     public ResponseEntity<String> searchOperation(String searchTarget, List<DataHolder> input){
-        ResponseEntity<String> searchResponseEntity = new ResponseEntity<>("Target not found.", HttpStatus.OK);
+        ResponseEntity<String> searchResponseEntity;
         try{
             SplitOffsetHolder offsetHolder = search(searchTarget, input, 0, 0);
             int originalIndex = splitOffsetBacktrack(offsetHolder, input.size());
@@ -48,8 +48,6 @@ public class NDimSearchService {
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
             log.info("Split Input: {}", splitInput.toString());
-//            TODO: calculate offset from original split based on number of upper/lower splits
-
             search(searchTarget, splitInput.getUpperHalf(), upperSplitOffset + 1, lowerSplitOffset);
             search(searchTarget, splitInput.getLowerHalf(),  upperSplitOffset, lowerSplitOffset + 1);
         } else {
@@ -61,6 +59,7 @@ public class NDimSearchService {
     }
 
     public int splitOffsetBacktrack(SplitOffsetHolder offsetHolder, int originalSize){
+//      TODO: calculate offset from original split based on number of upper/lower splits
         return 0;
     }
 }
