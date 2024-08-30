@@ -27,6 +27,11 @@ public class NDimSearchService {
         return new SplitInputHolder(input.subList(0, input.size()/2), input.subList((input.size()/2), input.size()));
     }
 
+    public Deque<Character> offsetQueue updateAndReturn(Deque<Character> offsetQueue, char charToAdd){
+        offsetQueue.addFirst(charToAdd);
+        return offsetQueue;
+    }
+
     //TODO: return list of all locations where the target was found?
     public ResponseEntity<String> searchOperation(String searchTarget, List<DataHolder> input){
         ResponseEntity<String> searchResponseEntity;
@@ -49,8 +54,8 @@ public class NDimSearchService {
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
             log.info("Split Input: {}", splitInput.toString());
-            search(searchTarget, splitInput.getUpperHalf(), offsetQueue.addFirst('U'), upperOffset + 1, lowerOffset);
-            search(searchTarget, splitInput.getLowerHalf(), offsetQueue.addFirst('L'), upperOffset, lowerOffset + 1);
+            search(searchTarget, splitInput.getUpperHalf(), updateAndReturn(offsetQueue, 'U'), upperOffset + 1, lowerOffset);
+            search(searchTarget, splitInput.getLowerHalf(), updateAndReturn(offsetQueue, 'L'), upperOffset, lowerOffset + 1);
         } else {
             if (input.get(0).getName().equalsIgnoreCase(searchTarget)) {
                 return new OffsetData(upperOffset, lowerOffset, offsetQueue);
