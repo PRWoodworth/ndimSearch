@@ -11,7 +11,7 @@ import com.dimSearch.nDimSearch.service.NDimSearchService;
 
 
 @RestController
-class SearchController {
+public class SearchController {
     private static final Logger log = LogManager.getLogger(SearchController.class.getName());
 
     @Autowired NDimSearchService searchService;

@@ -2,7 +2,6 @@ package com.dimSearch.nDimSearch.service;
 
 import com.dimSearch.nDimSearch.data.DataHolder;
 import com.dimSearch.nDimSearch.data.SplitInputHolder;
-import com.dimSearch.nDimSearch.data.OffsetData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
