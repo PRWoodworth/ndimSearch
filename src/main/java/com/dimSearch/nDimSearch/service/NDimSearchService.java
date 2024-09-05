@@ -34,55 +34,33 @@ public class NDimSearchService {
 
     //TODO: return list of all locations where the target was found?
     public ResponseEntity<String> searchOperation(String searchTarget, List<DataHolder> input){
-        ResponseEntity<String> searchResponseEntity;
-        Deque<Character> offsetDeque = new ArrayDeque<>();
+        ResponseEntity<String> searchResponseEntity = new ResponseEntity<>("REQUEST_TEMPLATE", HttpStatus.ACCEPTED);
         try{
-            OffsetData offsetHolder = search(searchTarget, input, offsetDeque, 0, 0);
-            int originalIndex = splitOffsetBacktrack(offsetHolder, input.size());
-            searchResponseEntity = new ResponseEntity<>("Target found at index ".concat(String.valueOf(originalIndex)), HttpStatus.OK);
+            int originalIndex = search(searchTarget, input, input.size()/2);
+            switch(originalIndex){
+                case -1: return new ResponseEntity<>("Target not found within given input ", HttpStatus.OK);
+                default: return new ResponseEntity<>("Target found at index ".concat(String.valueOf(originalIndex)), HttpStatus.OK);
+            }
         } catch (Exception e){
-            searchResponseEntity = new ResponseEntity<>("Error occurred during search.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error occurred during search.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return searchResponseEntity;
     }
 
-    public OffsetData search(String searchTarget, List<DataHolder> input, Deque<Character> offsetQueue, int upperOffset, int lowerOffset) {
+    public int search(String searchTarget, List<DataHolder> input, int midIndex) {
         log.info("Input: {}", input.toString());
-        log.info("Offset Queue: {}", offsetQueue.toString());
-        log.info("Upper split offset: {}", upperOffset);
-        log.info("Lower split offset: {}", lowerOffset);
+        log.info("Mid Index: {}", String.valueOf(midIndex));
 
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
             log.info("Split Input: {}", splitInput.toString());
-            search(searchTarget, splitInput.getUpperHalf(), updateAndReturn(offsetQueue, 'U'), upperOffset + 1, lowerOffset);
-            search(searchTarget, splitInput.getLowerHalf(), updateAndReturn(offsetQueue, 'L'), upperOffset, lowerOffset + 1);
+            search(searchTarget, splitInput.getUpperHalf(), midIndex + splitInput.getUpperHalf().size()/2);
+            search(searchTarget, splitInput.getLowerHalf(), midIndex - splitInput.getLowerHalf().size()/2);
         } else {
             if (input.get(0).getName().equalsIgnoreCase(searchTarget)) {
-                return new OffsetData(upperOffset, lowerOffset, offsetQueue);
+                return midIndex;
             }
         }
-        return null;
-    }
-
-    public int splitOffsetBacktrack(OffsetData offsetHolder, int originalSize){
-//      TODO: calculate offset from original split based on number of upper/lower splits and original size
-        /*
-        determine how far to move from center
-        move direction up/down # of times equal to offset counts
-         */
-        int totalOffsets = offsetHolder.getLowerSplitOffset() + offsetHolder.getUpperSplitOffset();
-        int sizeHolder = originalSize;
-        int index = sizeHolder/2;
-        int offsetMove = 0;
-        Deque offsetDeque = offsetHolder.getOffsetDirections();
-        char offsetDirection;
-        for (int i = 0; i < totalOffsets; i++) {
-            offsetMove = sizeHolder/2;
-            offsetDirection = offsetHolder.getOffsetDirections().pop().toString().charAt(0);
-            sizeHolder /= 2;
-        }
-        return 0;
+        return -1;
     }
 }
 
