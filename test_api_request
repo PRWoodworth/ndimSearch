@@ -1,0 +1,47 @@
+curl --location --request GET 'http://localhost:8081/ndimensional/search' \
+--header 'Content-Type: application/json' \
+--data '{
+    "searchTarget": "name3",
+    "input": [
+        {
+            "name": "name1",
+            "id": 1
+        },
+        {
+            "name": "name3",
+            "id": 3
+        },
+        {
+            "name": "name5",
+            "id": 5
+        },
+        {
+            "name": "name7",
+            "id": 7
+        },
+        {
+            "name": "name9",
+            "id": 9
+        },
+        {
+            "name": "name2",
+            "id": 2
+        },
+        {
+            "name": "name4",
+            "id": 4
+        },
+        {
+            "name": "name6",
+            "id": 6
+        },
+        {
+            "name": "name8",
+            "id": 8
+        },
+        {
+            "name": "name0",
+            "id": 0
+        }
+    ]
+}'
