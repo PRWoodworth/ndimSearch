@@ -1,0 +1,23 @@
+[1mdiff --git a/src/main/java/com/dimSearch/nDimSearch/service/NDimSearchService.java b/src/main/java/com/dimSearch/nDimSearch/service/NDimSearchService.java[m
+[1mindex 23af842..7865d97 100644[m
+[1m--- a/src/main/java/com/dimSearch/nDimSearch/service/NDimSearchService.java[m
+[1m+++ b/src/main/java/com/dimSearch/nDimSearch/service/NDimSearchService.java[m
+[36m@@ -35,9 +35,8 @@[m [mpublic class NDimSearchService {[m
+     //TODO: return list of all locations where the target was found?[m
+     public ResponseEntity<String> searchOperation(String searchTarget, List<DataHolder> input){[m
+         ResponseEntity<String> searchResponseEntity;[m
+[31m-        Deque<Character> offsetDeque = new ArrayDeque<>();[m
+         try{[m
+[31m-            OffsetData offsetHolder = search(searchTarget, input, offsetDeque, 0, 0);[m
+[32m+[m[32m            OffsetData offsetHolder = search(searchTarget, input, new ArrayDeque<>(), 0, 0);[m
+             int originalIndex = splitOffsetBacktrack(offsetHolder, input.size());[m
+             searchResponseEntity = new ResponseEntity<>("Target found at index ".concat(String.valueOf(originalIndex)), HttpStatus.OK);[m
+         } catch (Exception e){[m
+[36m@@ -55,6 +54,7 @@[m [mpublic class NDimSearchService {[m
+         if (input.size() > 1) {[m
+             SplitInputHolder splitInput = split(input);[m
+             log.info("Split Input: {}", splitInput.toString());[m
+[32m+[m[32m//            TODO: offset deque not built correctly during recursion. create new deque every time? probably memory inefficient.[m
+             search(searchTarget, splitInput.getUpperHalf(), updateAndReturn(offsetQueue, 'U'), upperOffset + 1, lowerOffset);[m
+             search(searchTarget, splitInput.getLowerHalf(), updateAndReturn(offsetQueue, 'L'), upperOffset, lowerOffset + 1);[m
+         } else {[m

@@ -35,6 +35,8 @@ public class NDimSearchService {
     public ResponseEntity<String> searchOperation(String searchTarget, List<DataHolder> input){
         ResponseEntity<String> searchResponseEntity = new ResponseEntity<>("REQUEST_TEMPLATE", HttpStatus.ACCEPTED);
         try{
+            int originalSize = input.size();
+            log.info("Input size: {}", originalSize);
             int originalIndex = search(searchTarget, input, input.size()/2);
             switch(originalIndex){
                 case -1: return new ResponseEntity<>("Target not found within given input ", HttpStatus.OK);
@@ -52,9 +54,9 @@ public class NDimSearchService {
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
             log.info("Split Input: {}", splitInput.toString());
-            search(searchTarget, splitInput.getUpperHalf(), midIndex + splitInput.getUpperHalf().size()/2);
-            search(searchTarget, splitInput.getLowerHalf(), midIndex - splitInput.getLowerHalf().size()/2);
-        } else {
+            search(searchTarget, splitInput.getUpperHalf(), (int) (midIndex + Math.ceil(splitInput.getUpperHalf().size()/2)));
+            search(searchTarget, splitInput.getLowerHalf(), (int) (midIndex - Math.ceil(splitInput.getLowerHalf().size()/2)));
+        } else if (input.size() == 1){
             if (input.get(0).getName().equalsIgnoreCase(searchTarget)) {
                 return midIndex;
             }
