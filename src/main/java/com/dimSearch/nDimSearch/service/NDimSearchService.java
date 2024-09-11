@@ -54,11 +54,13 @@ public class NDimSearchService {
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
             log.info("Split Input: {}", splitInput.toString());
-            search(searchTarget, splitInput.getUpperHalf(), (int) (midIndex + Math.ceil(splitInput.getUpperHalf().size()/2)));
-            search(searchTarget, splitInput.getLowerHalf(), (int) (midIndex - Math.ceil(splitInput.getLowerHalf().size()/2)));
-        } else if (input.size() == 1){
+            search(searchTarget, splitInput.getUpperHalf(), (int) (midIndex + Math.ceil(splitInput.getUpperHalf().size()) / 2));
+            search(searchTarget, splitInput.getLowerHalf(), (int) (midIndex - Math.floor(splitInput.getLowerHalf().size()) / 2));
+        } else {
             if (input.get(0).getName().equalsIgnoreCase(searchTarget)) {
+                log.info("Search target found at {}", midIndex);
                 return midIndex;
+                //TODO: finds value correctly but later returns override the value
             }
         }
         return -1;
