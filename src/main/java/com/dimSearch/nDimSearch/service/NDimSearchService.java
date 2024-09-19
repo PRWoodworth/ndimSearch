@@ -35,8 +35,8 @@ public class NDimSearchService {
     public ArrayList<Integer> search(String searchTarget, List<DataHolder> input, int midIndex, ArrayList<Integer> positiveReturns) {
         if (input.size() > 1) {
             SplitInputHolder splitInput = split(input);
-            search(searchTarget, splitInput.getUpperHalf(), (int) (midIndex + Math.ceil(splitInput.getUpperHalf().size()) / 2), positiveReturns);
-            search(searchTarget, splitInput.getLowerHalf(), (int) (midIndex - Math.floor(splitInput.getLowerHalf().size()) / 2), positiveReturns);
+            search(searchTarget, splitInput.getUpperHalf(), (int) (midIndex + (double) splitInput.getUpperHalf().size() / 2), positiveReturns);
+            search(searchTarget, splitInput.getLowerHalf(), (int) (midIndex - (double) splitInput.getLowerHalf().size() / 2), positiveReturns);
         } else {
             if (input.get(0).getName().equalsIgnoreCase(searchTarget)) {
                 positiveReturns.add(midIndex);
