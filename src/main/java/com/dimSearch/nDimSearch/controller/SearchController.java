@@ -21,13 +21,11 @@ public class SearchController {
 
     @RequestMapping(value = "/search", method= RequestMethod.GET)
     public ResponseEntity searchEndpoint(@RequestBody InputData requestBody){
-        log.info("INCOMING REQUEST: {}", requestBody.toString());
         return searchService.searchOperation(requestBody.getSearchTarget(), requestBody.getInput());
     }
 
     @RequestMapping(value = "/generateData", method= RequestMethod.GET)
     public ResponseEntity generateTestDataEndpoint(@RequestBody DataGenInput requestBody){
-        log.info("INCOMING REQUEST: {}", requestBody.toString());
         return dataGenService.generateTestData(requestBody);
     }
 

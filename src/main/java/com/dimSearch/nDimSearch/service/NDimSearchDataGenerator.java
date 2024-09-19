@@ -2,6 +2,7 @@ package com.dimSearch.nDimSearch.service;
 
 import com.dimSearch.nDimSearch.data.DataHolder;
 import com.dimSearch.nDimSearch.data.POJO.DataGenInput;
+import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,7 @@ public class NDimSearchDataGenerator {
                 DataHolder newData = new DataHolder("name".concat(String.valueOf(newId)), newId);
                 dataList.set(i, newData);
             }
-            //todo: return as JSON?
-            return new ResponseEntity<>(dataList.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(new Gson().toJson(dataList), HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>("Error occurred during test data generation.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
